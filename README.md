@@ -12,7 +12,7 @@ then measurement uncertainty,  the measurement's update is given more weight and
 Please refer to the original Udacity project [README](./README_orig.md)
 
 ## Project Output
-![Simulator Output](./sim_screenshot_output.jpg)
+![Simulator Output](./sim_screenshot_output.png)
 
 The blue dots are radar measurements, the red dots are laser measurements, and the green dots are the EKF tracking results.
 The positions of green dots are sent from [main.cpp](./main.cpp) to the simulator.
