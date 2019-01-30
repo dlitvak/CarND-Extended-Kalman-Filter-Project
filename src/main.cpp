@@ -34,30 +34,31 @@ int main() {
 
   // Create a Kalman Filter instance
   FusionEKF fusionEKF;
-
   // used to compute the RMSE later
   Tools tools;
+
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
-
+    
   h.onMessage([&fusionEKF,&tools,&estimations,&ground_truth]
               (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
                uWS::OpCode opCode) {
+
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
     if (length && length > 2 && data[0] == '4' && data[1] == '2') {
       auto s = hasData(string(data));
-
+        
       if (s != "") {
         auto j = json::parse(s);
-
+          
         string event = j[0].get<string>();
-        
+
         if (event == "telemetry") {
           // j[1] is the data JSON object
           string sensor_measurement = j[1]["sensor_measurement"];
-          
+            
           MeasurementPackage meas_package;
           std::istringstream iss(sensor_measurement);
           
@@ -66,7 +67,7 @@ int main() {
           // reads first element from the current line
           string sensor_type;
           iss >> sensor_type;
-
+            
           if (sensor_type.compare("L") == 0) {
             meas_package.sensor_type_ = MeasurementPackage::LASER;
             meas_package.raw_measurements_ = VectorXd(2);
@@ -90,7 +91,7 @@ int main() {
             iss >> timestamp;
             meas_package.timestamp_ = timestamp;
           }
-
+            
           float x_gt;
           float y_gt;
           float vx_gt;
@@ -99,16 +100,17 @@ int main() {
           iss >> y_gt;
           iss >> vx_gt;
           iss >> vy_gt;
-
+            
+    
           VectorXd gt_values(4);
           gt_values(0) = x_gt;
           gt_values(1) = y_gt; 
           gt_values(2) = vx_gt;
           gt_values(3) = vy_gt;
           ground_truth.push_back(gt_values);
-          
+            
           // Call ProcessMeasurement(meas_package) for Kalman filter
-          fusionEKF.ProcessMeasurement(meas_package);       
+          fusionEKF.ProcessMeasurement(meas_package);
 
           // Push the current estimated x,y positon from the Kalman filter's 
           //   state vector
@@ -147,7 +149,7 @@ int main() {
         ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
       }
     }  // end websocket message if
-
+                  
   }); // end h.onMessage
 
   h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req) {

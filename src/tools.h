@@ -1,5 +1,6 @@
 #ifndef TOOLS_H_
 #define TOOLS_H_
+#define _USE_MATH_DEFINES
 
 #include <vector>
 #include "Eigen/Dense"
@@ -27,6 +28,17 @@ class Tools {
    */
   Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd& x_state);
 
+    /**
+     * Convert cartesian Vector cartV to polar Vecor
+     */
+    Eigen::VectorXd ConvertCartesianToPolar(const Eigen::VectorXd &cartV);
+    
+    /**
+     * Convert polar Vector polarV to cartesian Vecor
+     */
+    Eigen::VectorXd ConvertPolarToCartesian(const Eigen::VectorXd &polarV);
+    
+    double NormalizeAngleRadians(double ang);
 };
 
 #endif  // TOOLS_H_

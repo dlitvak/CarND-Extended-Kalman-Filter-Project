@@ -44,6 +44,18 @@ class FusionEKF {
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
   Eigen::MatrixXd Hj_;
+    
+    // state covariance matrix P
+    Eigen::MatrixXd P_;
+    
+    // the initial transition matrix F_
+    Eigen::MatrixXd F_;
+    
+    // process noise
+    Eigen::MatrixXd Q_;
+    
+    const double noise_ax = 9.0;
+    const double noise_ay = 9.0;
 };
 
 #endif // FusionEKF_H_
